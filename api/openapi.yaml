@@ -1,0 +1,117 @@
+openapi: 3.0.1
+info:
+  title: NBB Vorkasse detector for Telegram
+  description: This is a telegram Bot API that notifies a group when the payment methods
+    of the notebooksbilliger portal changes.
+  contact:
+    email: joaocurti@hotmail.com
+  license:
+    name: APL
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find more about this project on my github repository
+  url: http://github.com/jpcurti
+servers:
+- url: http://localhost:8081/
+- url: http://192.168.2.174:8081/
+
+tags:
+- name: config
+  description: Parameter Configuration
+- name: commands
+  description: Access to Telegram Bot commands
+paths:
+  /config/set:
+    put:
+      tags:
+      - config
+      summary: Update the telegram bot configuration
+      operationId: setConfig
+      requestBody:
+        description: Bot configuration object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Configuration'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content: {}
+        "400":
+          description: Invalid configuration parameter
+          content: {}
+      x-codegen-request-body-name: body
+      x-swagger-router-controller: Config
+  /config/get{pin}:
+    get:
+      tags:
+      - config
+      summary: Retrieve the telegram bot configuration
+      operationId: getConfig
+      parameters:
+      - name: pin
+        in: path
+        description: PIN to retrieve sensitive information
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Configuration'
+        "400":
+          description: Invalid pin provided
+          content: {}
+      x-swagger-router-controller: Config
+  /command/heartBeat:
+    put:
+      tags:
+      - commands
+      summary: Make bot send a heartbeat message
+      operationId: heartBeat
+      responses:
+        "200":
+          description: Successful operation
+          content: {}
+        "404":
+          description: Bot is offline
+          content: {}
+      x-swagger-router-controller: Commands
+  /command/notifyVorkasseGone:
+    put:
+      tags:
+      - commands
+      summary: Make bot send a "Vorkasse is gone" message
+      operationId: notifyVorkasseGone
+      responses:
+        "200":
+          description: Successful operation
+          content: {}
+        "404":
+          description: Bot is offline
+          content: {}
+      x-swagger-router-controller: Commands
+components:
+  schemas:
+    Configuration:
+      required:
+      - groupid
+      - telegramtoken
+      type: object
+      properties:
+        groupid:
+          type: string
+          example: "12345"
+        telegramtoken:
+          type: string
+          example: 123456789:abdscdeesdjaeids
+      example:
+        telegramtoken: 123456789:abdscdeesdjaeids
+        groupid: "12345"
