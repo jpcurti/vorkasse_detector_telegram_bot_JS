@@ -8,7 +8,7 @@ var oas3Tools = require('oas3-tools');
 const { inherits } = require('util');
 const { setConfig } = require('./service/ConfigService');
 const { initBotMessage } = require('./service/CommandsService');
-var serverPort = 8081;
+var serverPort = process.env.PORT;
 
 // swaggerRouter configuration
 var options = {

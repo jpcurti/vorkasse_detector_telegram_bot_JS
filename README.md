@@ -10,6 +10,11 @@ To run the server, run:
 npm start
 ```
 
+The telegram token, group id and server port are stored as environment variables BOT_TOKEN, CHAT_ID and PORT. To run the script with your variables, run:
+```
+BOT_TOKEN=yourbotid:yourbothash CHAT_ID=yourchatoruserID PORT=8081 node index.js
+```
+
 To view the Swagger UI interface:
 
 ```
