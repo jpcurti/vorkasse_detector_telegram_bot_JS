@@ -8,6 +8,7 @@ pipeline{
             
             steps {
                 echo 'building project'
+                docker build -t testimage .
             }
 
         }
